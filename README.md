@@ -6,17 +6,17 @@ This repository hosts the public entry and the original-H264 browser transport s
 
 ## Current development session
 
-The current GPU allocation ends **2026-10-22 00:11:55 Asia/Taipei**. The entry page records the current authenticated gateway. A working static entry does not imply that an expired GPU session is still running.
+The GPU allocation ended **2026-10-22 00:11:55 Asia/Taipei**. The public entry is offline and both task-owned Codespaces are **Shutdown**. Renewal duration is awaiting the owner's choice. No replacement GPU job has been submitted. The stable entry is https://asimfish.github.io/chemlab-isaac-viewer/.
 
 Use current Chrome or Edge. The viewer requires WebCodecs and MediaStreamTrackGenerator. Each GPU admits one browser viewer. Close the viewer or use Disconnect before switching devices. Audio and mobile touch controls are not verified.
 
 ## GitHub server option
 
-[Create a Codespace for this repository](https://codespaces.new/asimfish/chemlab-isaac-viewer)
+The operator has already provisioned the task-owned relay; do not create duplicate machines from the entry page.
 
 Codespaces provides a temporary CPU machine and owner-authenticated HTTPS port forwarding. It can host a relay; it does not replace the four Pro6000 GPUs. Keep the forwarded port **private** so GitHub sign-in protects the native Script Editor and mounted data.
 
-The deployment operator needs GitHub OAuth `codespace` permission. The owner has completed that authorization. The first minimal container lacked SSH and was stopped. The pinned SSH feature in this configuration fixes that prerequisite; the replacement relay is being verified. GitHub personal accounts include a monthly allowance; availability and remaining allowance must be checked in the owner's billing settings. A2-core instance is priced at$0.18/hour outside included usage; no budget or account billing setting is changed by this repository.
+The deployment operator needs GitHub OAuth `codespace` permission. The owner has completed that authorization. The first minimal container lacked SSH and was stopped. The pinned SSH feature in this configuration fixes that prerequisite; the replacement relay in Southeast Asia passed SSH and private-port HTTP health checks. GitHub rewrites legitimate HTTPS Origin to `https://localhost:18620`; the proxy now accepts that exact value while rejecting foreign origins. Real GitHub video/input and latency verification did not complete before the GPU deadline. The machine is stopped until renewal; this route is not yet accepted for delivery. GitHub personal accounts include a monthly allowance; availability and remaining allowance must be checked in the owner's billing settings. A2-core instance is priced at$0.18/hour outside included usage; no budget or account billing setting is changed by this repository.
 
 The operator uses one active2-core Codespace, keep port18620 private, and create a bounded SSH reverse forward from that machine to the existing local GUI gateway. Both the relay and the GPU session must stop at their recorded deadlines. Do not expose raw CDP or Isaac signaling publicly.
 
@@ -31,7 +31,7 @@ The bridge copies Annex-B access units without JPEG conversion or another video 
 ```sh
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
-.venv/bin/python -m unittest discover -s server -p test_boundary.py
+.venv/bin/python -m unittest discover -s server -p 'test_*.py'
 node --check site/viewer.js
 ```
 
@@ -40,3 +40,7 @@ Source is a bounded deployment prototype. `server/bridge.py` expects the existin
 See `PERFORMANCE.md` for measurements and limitations. Assets, SDK binaries, authentication credentials and browser profiles are excluded. ChemLab asset files retain their upstream licenses and are not redistributed here.
 
 The SSH server feature is pinned to its OCI digest. `server/github_proxy.py` runs behind private GitHub port18620 and forwards only to loopback18622, connected to the origin by SSH reverse forwarding. `T588_CODE_HOST` and `T588_ORIGIN_HOST` select exact deployment hostnames. The proxy validates Origin and strips GitHub tokens/cookies before forwarding. Its lifetime is clamped to the GPU deadline.
+
+## Resume acceptance
+
+Confirm the old GPU job is terminal and obtain the chosen renewal duration before another four-GPU allocation. Prepare a new immutable bundle with the verified30fps timeline configuration. Update all deployment deadlines, restore the private job transport, and resume only the replacement Codespace. Keep port18620 private. Validate health, permitted/foreign Origin behavior, then actual video and native input for all four views. Measure GitHub latency separately under the frozen gallery workload before replacing the public entry links. No GitHub performance improvement has been established.

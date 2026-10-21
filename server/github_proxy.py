@@ -11,8 +11,8 @@ async def forward(reader,writer):
  upstream=None
  try:
   async with LIMIT:
-   if time.time()>=DEADLINE:await error(writer,'410 Gone');return
    raw=await asyncio.wait_for(reader.readuntil(b'\r\n\r\n'),8)
+   if time.time()>=DEADLINE:await error(writer,'410 Gone');return
    if len(raw)>16384:await error(writer,'431 Request Header Fields Too Large');return
    lines=raw.decode('latin1').split('\r\n');first=lines[0].split(' ')
    if len(first)!=3 or first[0]!='GET' or not first[1].startswith('/') or first[1].startswith('//') or first[2]!='HTTP/1.1':await error(writer,'400 Bad Request');return
@@ -27,7 +27,9 @@ async def forward(reader,writer):
     if key=='upgrade' and value.lower()=='websocket':ws=True
     if key not in DROP and key not in ('host','origin','connection'):rows.append((name,value))
    if len(hosts)!=1 or hosts[0]not in (CODE_HOST,'127.0.0.1:18620','localhost:18620'):await error(writer,'403 Forbidden');return
-   if origins and origins!=['https://'+CODE_HOST]:await error(writer,'403 Forbidden');return
+   # GitHub rewrites same-origin HTTPS requests to this exact local origin.
+   # Foreign origins remain unchanged and must still be rejected.
+   if origins and not (len(origins)==1 and origins[0] in ('https://'+CODE_HOST,'https://localhost:18620')):await error(writer,'403 Forbidden');return
    if ws and not origins:await error(writer,'403 Forbidden');return
    rows.append(('Host',ORIGIN_HOST));rows.append(('Connection','Upgrade' if ws else 'close'))
    if origins:rows.append(('Origin','https://'+ORIGIN_HOST))

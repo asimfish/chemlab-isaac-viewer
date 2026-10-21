@@ -1,10 +1,12 @@
-import asyncio,unittest
+import asyncio,time,unittest
+from unittest.mock import patch
 from aiohttp.test_utils import TestClient, TestServer
 from aiohttp import web
 import bridge
 
 class BoundaryTest(unittest.IsolatedAsyncioTestCase):
  async def asyncSetUp(self):
+  self.deadline=patch.object(bridge,'DEADLINE',time.time()+60);self.deadline.start();self.addCleanup(self.deadline.stop)
   bridge.TEST_SECRET='test-only-local-fixture';bridge.ALLOWED_HOST='gateway.example'
   self.client=TestClient(TestServer(bridge.make_app()));await self.client.start_server()
  async def asyncTearDown(self):await self.client.close()

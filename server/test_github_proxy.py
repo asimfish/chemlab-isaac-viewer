@@ -1,8 +1,9 @@
-import asyncio,unittest
+import asyncio,time,unittest
 from unittest.mock import patch
 import github_proxy as relay
 class ProxyTest(unittest.IsolatedAsyncioTestCase):
  async def asyncSetUp(self):
+  self.deadline=patch.object(relay,'DEADLINE',time.time()+60);self.deadline.start();self.addCleanup(self.deadline.stop)
   self.captured=[]
   async def origin(r,w):
    self.captured.append(await r.readuntil(b'\r\n\r\n'));w.write(b'HTTP/1.1 200 OK\r\nContent-Length: 2\r\nConnection: close\r\n\r\nOK');await w.drain();w.close()
@@ -26,4 +27,14 @@ class ProxyTest(unittest.IsolatedAsyncioTestCase):
  async def test_websocket_origin_is_normalized_only_after_validation(self):
   raw=('GET /stream?gpu=0 HTTP/1.1\r\nHost: '+relay.CODE_HOST+'\r\nOrigin: https://'+relay.CODE_HOST+'\r\nUpgrade: websocket\r\n\r\n').encode()
   await self.request(raw);self.assertIn(('Origin: https://'+relay.ORIGIN_HOST).encode(),self.captured[0]);self.assertIn(b'Connection: Upgrade',self.captured[0])
+ async def test_github_rewritten_same_origin_is_accepted(self):
+  raw=b'GET /viewer.js HTTP/1.1\r\nHost: localhost:18620\r\nOrigin: https://localhost:18620\r\n\r\n'
+  self.assertIn(b'200 OK',await self.request(raw));self.assertIn(('Origin: https://'+relay.ORIGIN_HOST).encode(),self.captured[0])
+ async def test_websocket_without_origin_is_rejected(self):
+  raw=('GET /stream HTTP/1.1\r\nHost: '+relay.CODE_HOST+'\r\nUpgrade: websocket\r\n\r\n').encode()
+  self.assertIn(b'403',await self.request(raw));self.assertFalse(self.captured)
+ async def test_expired_session_does_not_contact_origin(self):
+  with patch.object(relay,'DEADLINE',0):
+   raw=('GET /health HTTP/1.1\r\nHost: '+relay.CODE_HOST+'\r\n\r\n').encode()
+   self.assertIn(b'410 Gone',await self.request(raw));self.assertFalse(self.captured)
 if __name__=='__main__':unittest.main()
