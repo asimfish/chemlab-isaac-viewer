@@ -4,7 +4,7 @@ from pathlib import Path
 from aiohttp import web, ClientSession, WSMsgType
 
 ROOT=Path(__file__).resolve().parent
-DEADLINE=1792599115.5804963
+DEADLINE=float(os.environ.get('T588_SESSION_DEADLINE','1792599115.5804963'))
 PRODUCER_SECRET=secrets.token_urlsafe(40)
 TEST_SECRET=os.environ.get('T588_TEST_SECRET')
 ALLOWED_HOST=os.environ.get('T588_PUBLIC_HOST','')
@@ -105,6 +105,7 @@ async def producer(req):
                     # Never discard an H264 reference frame and continue its dependents.
                     # Congestion closes the stream; reconnect starts a fresh keyframe.
                     if w.queue.full():
+                        print('T588_STREAM_CONGESTED',w.gpu,w.queue.qsize(),flush=True)
                         w.dropped+=1;await w.viewer.close(code=1013,message=b'Network congested; reconnect');break
                     w.queue.put_nowait(msg.data)
     except (ValueError,asyncio.TimeoutError):pass
@@ -138,7 +139,7 @@ async def stream(req):
             elif m.get('type')=='stats':await ws.send_json({'type':'native-stats','stats':await w.stats()})
             elif not w.input.full():w.input.put_nowait(m)
     finally:
-        sender.cancel();await w.close()
+        sender.cancel();await asyncio.gather(sender,return_exceptions=True);await w.close()
         if WORKERS.get(gpu) is w:WORKERS.pop(gpu,None)
     return ws
 

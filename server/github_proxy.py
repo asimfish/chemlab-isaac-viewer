@@ -2,7 +2,7 @@
 import asyncio,contextlib,os,time
 CODE_HOST=os.environ.get('T588_CODE_HOST','gateway.invalid')
 ORIGIN_HOST=os.environ.get('T588_ORIGIN_HOST','origin.invalid')
-DEADLINE=1792599115.5804963
+DEADLINE=float(os.environ.get('T588_SESSION_DEADLINE','1792599115.5804963'))
 LIMIT=asyncio.Semaphore(64)
 DROP={'authorization','cookie','x-github-token','x-forwarded-access-token','cf-access-jwt-assertion'}
 async def error(writer,status):

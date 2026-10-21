@@ -6,7 +6,13 @@ This repository hosts the public entry and the original-H264 browser transport s
 
 ## Current development session
 
-The GPU allocation ended **2026-10-22 00:11:55 Asia/Taipei**. The public entry is offline and both task-owned Codespaces are **Shutdown**. Renewal duration is awaiting the owner's choice. No replacement GPU job has been submitted. The stable entry is https://asimfish.github.io/chemlab-isaac-viewer/.
+The owner renewed the four-GPU allocation for4hours. **Current end:2026-10-22 04:42:04 Asia/Taipei.** Rendering job `job-3gjzfw7ab6jp` uses immutable bundle013, native30fps and four independent203-root galleries. The old allocation is terminal; no overlap was created. The replacement2-core Asia Codespace is active and the first failed container stays stopped.
+
+Stable entry: https://asimfish.github.io/chemlab-isaac-viewer/
+
+Private GitHub viewer: https://t588-isaac-relay002-jjjrvw46r6q52qjv-18620.app.github.dev/?gpu=0
+
+Sign in as `asimfish`, accept the Codespaces Continue screen when shown, then click Connect. This is an interactive native GUI streamed to the browser, with mouse menus and ASCII text entry verified. The entry disables its links after the recorded deadline.
 
 Use current Chrome or Edge. The viewer requires WebCodecs and MediaStreamTrackGenerator. Each GPU admits one browser viewer. Close the viewer or use Disconnect before switching devices. Audio and mobile touch controls are not verified.
 
@@ -16,7 +22,7 @@ The operator has already provisioned the task-owned relay; do not create duplica
 
 Codespaces provides a temporary CPU machine and owner-authenticated HTTPS port forwarding. It can host a relay; it does not replace the four Pro6000 GPUs. Keep the forwarded port **private** so GitHub sign-in protects the native Script Editor and mounted data.
 
-The deployment operator needs GitHub OAuth `codespace` permission. The owner has completed that authorization. The first minimal container lacked SSH and was stopped. The pinned SSH feature in this configuration fixes that prerequisite; the replacement relay in Southeast Asia passed SSH and private-port HTTP health checks. GitHub rewrites legitimate HTTPS Origin to `https://localhost:18620`; the proxy now accepts that exact value while rejecting foreign origins. Real GitHub video/input and latency verification did not complete before the GPU deadline. The machine is stopped until renewal; this route is not yet accepted for delivery. GitHub personal accounts include a monthly allowance; availability and remaining allowance must be checked in the owner's billing settings. A2-core instance is priced at$0.18/hour outside included usage; no budget or account billing setting is changed by this repository.
+The deployment operator needs GitHub OAuth `codespace` permission. The owner has completed that authorization. The first minimal container lacked SSH and was stopped. The pinned SSH feature in this configuration fixes that prerequisite; the replacement relay in Southeast Asia passed SSH and private-port HTTP health checks. GitHub rewrites legitimate HTTPS Origin to `https://localhost:18620`; the proxy now accepts that exact value while rejecting foreign origins. The previous session expired before GPU verification. The4hour renewal now displays all four real GUI views through GitHub, and mouse menus plus ASCII text entry have been exercised. A steady-media observation and latency limits are recorded in PERFORMANCE.md. GitHub personal accounts include a monthly allowance; availability and remaining allowance must be checked in the owner's billing settings. A2-core instance is priced at$0.18/hour outside included usage; no budget or account billing setting is changed by this repository.
 
 The operator uses one active2-core Codespace, keep port18620 private, and create a bounded SSH reverse forward from that machine to the existing local GUI gateway. Both the relay and the GPU session must stop at their recorded deadlines. Do not expose raw CDP or Isaac signaling publicly.
 
@@ -41,6 +47,10 @@ See `PERFORMANCE.md` for measurements and limitations. Assets, SDK binaries, aut
 
 The SSH server feature is pinned to its OCI digest. `server/github_proxy.py` runs behind private GitHub port18620 and forwards only to loopback18622, connected to the origin by SSH reverse forwarding. `T588_CODE_HOST` and `T588_ORIGIN_HOST` select exact deployment hostnames. The proxy validates Origin and strips GitHub tokens/cookies before forwarding. Its lifetime is clamped to the GPU deadline.
 
-## Resume acceptance
+## Session limits and follow-up
 
-Confirm the old GPU job is terminal and obtain the chosen renewal duration before another four-GPU allocation. Prepare a new immutable bundle with the verified30fps timeline configuration. Update all deployment deadlines, restore the private job transport, and resume only the replacement Codespace. Keep port18620 private. Validate health, permitted/foreign Origin behavior, then actual video and native input for all four views. Measure GitHub latency separately under the frozen gallery workload before replacing the public entry links. No GitHub performance improvement has been established.
+The launcher uses `--seconds 14400`; time starts when the job entrypoint starts, including initialization. Worker readiness does not prove video acceptance, which is checked separately. Workstation services, the origin and Codespaces proxy use the provider manifest deadline; a separate timer stops the Codespace. Original gallery/assets and source environments are preserved. The4hour renewal is a new job because the previous job had already ended.
+
+The private GitHub route replaces the earlier Cloudflare data path. No Cloudflare hop carries this session's video. `T588_SESSION_DEADLINE` must match the cloud manifest and `T588_PUBLIC_HOST`/`T588_ORIGIN_HOST` the configured GitHub hostname. SSH uses a task-local key and only its public half is registered. Codespaces retains its30minute idle setting; a bounded SSH terminal performs real health checks throughout the authorized debug window. The documented PATCH did not change that field; no account-wide setting was changed. See [GitHub idle behavior](https://docs.github.com/en/codespaces/setting-your-user-preferences/setting-your-timeout-period-for-github-codespaces).
+
+Observed ASCII typing in the native Stage search field works. Escape did not dismiss the native Window menu in this Kit session; clicking the menu again or outside closes it. Chinese IME, audio and mobile controls are unverified. The Stage search was cleared after testing. Network congestion can close the stream deliberately rather than discard H264 reference frames; reconnect from the viewer if needed. One earlier roughly146second disconnect is retained and is not a claim of4hour continuous connection reliability. The long observation is bounded evidence, not a guarantee on the end user's network.
