@@ -16,9 +16,9 @@ Use current Chrome or Edge. The viewer requires WebCodecs and MediaStreamTrackGe
 
 Codespaces provides a temporary CPU machine and owner-authenticated HTTPS port forwarding. It can host a relay; it does not replace the four Pro6000 GPUs. Keep the forwarded port **private** so GitHub sign-in protects the native Script Editor and mounted data.
 
-The deployment operator needs GitHub OAuth `codespace` permission. The current operator token was denied HTTP403 for that missing scope. Creating a Codespace has **not** yet been performed. GitHub personal accounts include a monthly allowance; availability and remaining allowance must be checked in the owner's billing settings. A2-core instance is priced at$0.18/hour outside included usage; no budget or account billing setting is changed by this repository.
+The deployment operator needs GitHub OAuth `codespace` permission. The owner has completed that authorization. The first minimal container lacked SSH and was stopped. The pinned SSH feature in this configuration fixes that prerequisite; the replacement relay is being verified. GitHub personal accounts include a monthly allowance; availability and remaining allowance must be checked in the owner's billing settings. A2-core instance is priced at$0.18/hour outside included usage; no budget or account billing setting is changed by this repository.
 
-After authorization, the operator will create one2-core Codespace, keep port18620 private, and create a bounded SSH reverse forward from that machine to the existing local GUI gateway. Both the relay and the GPU session must stop at their recorded deadlines. Do not expose raw CDP or Isaac signaling publicly.
+The operator uses one active2-core Codespace, keep port18620 private, and create a bounded SSH reverse forward from that machine to the existing local GUI gateway. Both the relay and the GPU session must stop at their recorded deadlines. Do not expose raw CDP or Isaac signaling publicly.
 
 ## Transport
 
@@ -38,3 +38,5 @@ node --check site/viewer.js
 Source is a bounded deployment prototype. `server/bridge.py` expects the existing loopback NVIDIA client on18600 and an isolated Chromium CDP listener on18619. Its public listener must remain loopback behind verified authentication. The recorded deployment deadline is intentional. Never place Zenith credentials in this repository, client JavaScript, URLs, or the GPU job.
 
 See `PERFORMANCE.md` for measurements and limitations. Assets, SDK binaries, authentication credentials and browser profiles are excluded. ChemLab asset files retain their upstream licenses and are not redistributed here.
+
+The SSH server feature is pinned to its OCI digest. `server/github_proxy.py` runs behind private GitHub port18620 and forwards only to loopback18622, connected to the origin by SSH reverse forwarding. `T588_CODE_HOST` and `T588_ORIGIN_HOST` select exact deployment hostnames. The proxy validates Origin and strips GitHub tokens/cookies before forwarding. Its lifetime is clamped to the GPU deadline.

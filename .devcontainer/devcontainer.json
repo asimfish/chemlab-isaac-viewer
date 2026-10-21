@@ -2,7 +2,20 @@
   "name": "ChemLab Isaac GUI relay",
   "image": "mcr.microsoft.com/devcontainers/base:bookworm@sha256:9a5942e64b35c5497c591b9bf177f4a3002d43440bf0a5e1a14fc34667b1a5c1",
   "remoteUser": "vscode",
-  "hostRequirements": {"cpus": 2},
-  "forwardPorts": [18620],
-  "portsAttributes": {"18620": {"label": "Isaac Sim · owner sign-in required", "protocol": "http", "onAutoForward": "notify"}}
+  "hostRequirements": {
+    "cpus": 2
+  },
+  "forwardPorts": [
+    18620
+  ],
+  "portsAttributes": {
+    "18620": {
+      "label": "Isaac Sim \u00b7 owner sign-in required",
+      "protocol": "http",
+      "onAutoForward": "notify"
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/sshd:1@sha256:f5251b8e4325f68f7280973c6cd65daff414449c66f240621502d4e8e74eb7ee": {}
+  }
 }

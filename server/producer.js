@@ -1,4 +1,9 @@
 (() => {
+ // Keep browser focus from scrolling the official client's video under the fixed input transform.
+ addEventListener('DOMContentLoaded',()=>{document.documentElement.style.overflow='clip';document.body.style.overflow='clip';window.scrollTo(0,0)},{once:true});
+ const focus=HTMLElement.prototype.focus;
+ HTMLElement.prototype.focus=function(options){return focus.call(this,this.id==='remote-video'?{...options,preventScroll:true}:options)};
+ addEventListener('scroll',()=>{if(scrollX||scrollY)scrollTo(0,0)},true);
  const gpu=__GPU__, secret='__SECRET__';
  const socket=new WebSocket('ws://127.0.0.1:18620/producer');
  socket.onopen=()=>socket.send(JSON.stringify({gpu,secret}));
