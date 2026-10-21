@@ -1,0 +1,6 @@
+#!/usr/bin/env python3
+import re, subprocess, sys
+content=subprocess.check_output(['git','diff','--cached','--no-ext-diff','--unified=0'],text=True)
+patterns=[r'znt_[0-9a-f]{30,}',r'ct-[0-9a-f]{20,}',r'gh[pousr]_[A-Za-z0-9]{20,}',r'github_pat_[A-Za-z0-9_]{20,}',r'-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----']
+if any(re.search(p,content) for p in patterns):
+ print('Commit refused: staged content matches a credential format.',file=sys.stderr);sys.exit(1)
