@@ -4,6 +4,12 @@ The current4GPU gallery session ends2026-10-23 03:02:24Asia/Taipei (2026-10-22 1
 
 This project streams the complete official NVIDIA Isaac Sim GUI with203ChemLab assets in16halls. Four GPUs provide independent editable sessions; the originalH264 stream is relayed without JPEG conversion or another video encoder. The private GitHub Codespaces port requires owner login. GitHubPages hosts only the entry/source.
 
+## Camera dragging
+
+Refresh the live viewer and reconnect to load the update. The top **拖动** selector offers **原生方向 / 反转上下 / 反转左右 / 全部反转**. It affects right-drag Look and Alt+left-drag Orbit; normal left clicks and GUI dragging retain their coordinates. The preference is stored in this browser and reapplied on reconnect. Native right-drag turns your head; to orbit an object, select it, pressF, then holdAlt+left-drag. See [NVIDIA navigation](https://docs.omniverse.nvidia.com/extensions/latest/ext_core/ext_viewport/navigation.html).
+
+Continuous pending mouse moves now coalesce without losing gesture boundaries. A WAN-burst replay improves release queue wait from410ms to33ms. Full native menu latency remains about0.6seconds on the measured route; it has **not** been reduced to33ms. Details and failed candidates are in PERFORMANCE.md.
+
 ## Latency changes
 
 1. The native-statistics snapshot now runs asynchronously, with at most one outstanding snapshot. A slow query cannot hold mouse/keyboard messages in the receive loop. Repeated requests coalesce; disconnect cancels the task.
@@ -37,6 +43,7 @@ python3 -m venv .venv
 .venv/bin/python -m unittest discover -s server -p 'test_*.py'
 .venv/bin/python benchmarks/control_benchmark.py /tmp/t588-control-replay.json
 node --check site/viewer.js
+node server/test_pointer_mode.mjs
 ```
 
-18core authentication/proxy/control tests pass. A separately rejectedWSS-multiplex spike has5additional local protocol tests and measured evidence in the private task artifacts; its complexity is not required by the selected policy. The2core Asia Codespace is reused for CPU-only profiling and stopped afterwards. Assets, NVIDIA SDK binaries, credentials and browser profiles are excluded; upstream asset licenses remain unchanged.
+24core authentication/proxy/control tests plus JavaScript camera/GUI direction tests pass. A separately rejectedWSS-multiplex spike has5additional local protocol tests and measured evidence in the private task artifacts; its complexity is not required by the selected policy. The2core Asia Codespace is reused for CPU-only profiling and stopped afterwards. Assets, NVIDIA SDK binaries, credentials and browser profiles are excluded; upstream asset licenses remain unchanged.

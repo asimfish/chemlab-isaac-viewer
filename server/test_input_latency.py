@@ -40,4 +40,8 @@ class InputLatencyTest(unittest.IsolatedAsyncioTestCase):
    if not self.worker.active:break
    await asyncio.sleep(.01)
   self.assertEqual(self.worker.active,0)
+ async def test_overload_closes_instead_of_silently_dropping_release(self):
+  for _ in range(135):await self.ws.send_json({'type':'key','action':'keyDown','key':'a'})
+  reply=await asyncio.wait_for(self.ws.receive(),2)
+  self.assertEqual(reply.type,bridge.WSMsgType.CLOSE);self.assertEqual(reply.data,1013)
 if __name__=='__main__':unittest.main()

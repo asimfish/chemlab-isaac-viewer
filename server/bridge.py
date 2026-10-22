@@ -1,6 +1,7 @@
 """Bounded native H264 GUI bridge. Public auth is required at edge; test mode bearer is in memory."""
 import asyncio, contextlib, json, math, os, secrets, signal, struct, time
 from pathlib import Path
+from collections import deque
 from aiohttp import web, ClientSession, WSMsgType
 
 ROOT=Path(__file__).resolve().parent
@@ -28,10 +29,33 @@ async def boundary(req,handler):
     response.headers.update({'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','Content-Security-Policy':"default-src 'self'; connect-src 'self' ws://127.0.0.1:18620 wss:; script-src 'self'; style-src 'self'; frame-ancestors 'none'"})
     return response
 
+class MotionQueue:
+    """Bounded ordered input; replace only adjacent moves within one gesture."""
+    def __init__(self,maxsize):
+        self.maxsize=maxsize;self.items=deque();self.available=asyncio.Event();self.coalesced=0
+    def full(self):return len(self.items)>=self.maxsize
+    def qsize(self):return len(self.items)
+    @staticmethod
+    def motion(m):
+        if m.get('type')=='mouse' and m.get('action')=='mouseMoved':
+            return (m.get('buttons',0),m.get('modifiers',0))
+        return None
+    def put_nowait(self,item):
+        signature=self.motion(item)
+        if self.items and signature is not None and signature==self.motion(self.items[-1]):
+            self.items[-1]=item;self.coalesced+=1;return
+        if self.full():raise asyncio.QueueFull()
+        self.items.append(item);self.available.set()
+    async def get(self):
+        while not self.items:await self.available.wait()
+        item=self.items.popleft()
+        if not self.items:self.available.clear()
+        return item
+
 class Worker:
     def __init__(self,gpu):
         self.gpu=gpu;self.cdp=None;self.pending={};self.n=0;self.viewer=None;self.queue=asyncio.Queue(maxsize=12)
-        self.input=asyncio.Queue(maxsize=128);self.tasks=[];self.frames=0;self.bytes=0;self.dropped=0;self.started=time.time();self.last_view=time.time();self.target=None;self.ready=False
+        self.input=MotionQueue(maxsize=128);self.tasks=[];self.frames=0;self.bytes=0;self.dropped=0;self.started=time.time();self.last_view=time.time();self.target=None;self.ready=False
     async def call(self,method,params=None):
         self.n+=1;n=self.n;f=asyncio.get_running_loop().create_future();self.pending[n]=f
         await self.cdp.send_json({'id':n,'method':method,'params':params or {}})
@@ -68,6 +92,10 @@ class Worker:
                     if action in ('mousePressed','mouseReleased'):p['clickCount']=min(2,max(1,int(m.get('clickCount',1))))
                     if action=='mouseWheel':p.update(deltaX=max(-500,min(500,float(m.get('dx',0)))),deltaY=max(-500,min(500,float(m.get('dy',0)))))
                     await self.call('Input.dispatchMouseEvent',p)
+                elif typ=='controls':
+                    mode=m.get('mode')
+                    if mode in ('native','vertical','horizontal','both'):
+                        await self.call('Runtime.evaluate',{'expression':'window.__t588PointerMode='+json.dumps(mode)})
                 elif typ=='key':
                     key=str(m.get('key',''));code=str(m.get('code',''));mods=int(m.get('modifiers',0))&15
                     if len(key)>32 or len(code)>32 or key in ('F5','F11','F12','Meta') or mods&4 or (mods&2 and key.lower() in ('l','t','w','n','r','p','o')):continue
@@ -79,7 +107,9 @@ class Worker:
             except (ValueError,KeyError,TypeError,asyncio.TimeoutError):pass
     async def stats(self):
         r=await self.call('Runtime.evaluate',{'expression':'(async()=>JSON.stringify(await window.__t588Stats()))()','awaitPromise':True,'returnByValue':True})
-        return json.loads(r.get('result',{}).get('value','{}'))
+        stats=json.loads(r.get('result',{}).get('value','{}'))
+        stats['input']={'queued':self.input.qsize(),'coalesced':self.input.coalesced}
+        return stats
     async def close(self):
         if self.cdp:
             with contextlib.suppress(Exception):await self.call('Page.navigate',{'url':'about:blank'})
@@ -146,7 +176,10 @@ async def stream(req):
                 # CDP statistics may be slow; never hold native input behind them.
                 # Coalesce repeated requests to one bounded in-flight snapshot.
                 if stats_task is None or stats_task.done():stats_task=asyncio.create_task(report_stats())
-            elif not w.input.full():w.input.put_nowait(m)
+            elif m.get('type') in ('mouse','key','controls'):
+                try:w.input.put_nowait(m)
+                except asyncio.QueueFull:
+                    await ws.close(code=1013,message=b'Input overloaded; reconnect');break
     finally:
         sender.cancel()
         if stats_task:stats_task.cancel()

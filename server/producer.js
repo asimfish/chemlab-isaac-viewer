@@ -1,3 +1,27 @@
+// Native SDKs may use absolute or relative motion; reflect both for camera gestures.
+// Keep ordinary GUI clicks and drags in their original coordinate system.
+function installPointerDirection(win) {
+ win.__t588PointerMode='native';let drag=null;
+ const names=['clientX','clientY','offsetX','offsetY','movementX','movementY'];
+ const original=Object.fromEntries(names.map(name=>[name,Object.getOwnPropertyDescriptor(win.MouseEvent.prototype,name)]));
+ const raw=(event,name)=>original[name].get.call(event);
+ win.addEventListener('pointerdown',event=>{
+  const button=event.buttons&2?2:(event.buttons&1)&&event.altKey?1:0;
+  drag=button&&event.target?.id==='remote-video'?{button,clientX:raw(event,'clientX'),clientY:raw(event,'clientY'),offsetX:raw(event,'offsetX'),offsetY:raw(event,'offsetY')}:null;
+ },true);
+ win.addEventListener('pointermove',event=>{if(!event.buttons)drag=null},true);
+ win.addEventListener('blur',()=>{drag=null},true);
+ for(const name of names) {
+  Object.defineProperty(win.MouseEvent.prototype,name,{...original[name],get(){
+   const value=raw(this,name),mode=win.__t588PointerMode,axis=name.slice(-1);
+   const reverse=mode==='both'||mode===(axis==='X'?'horizontal':'vertical');
+   const camera=drag&&((this.buttons&drag.button)||this.type==='mouseup'||this.type==='pointerup');
+   if(!camera||!reverse)return value;
+   return name.startsWith('movement')?-value:2*drag[name]-value;
+  }});
+ }
+}
+installPointerDirection(window);
 (() => {
  // Keep browser focus from scrolling the official client's video under the fixed input transform.
  addEventListener('DOMContentLoaded',()=>{document.documentElement.style.overflow='clip';document.body.style.overflow='clip';window.scrollTo(0,0)},{once:true});
