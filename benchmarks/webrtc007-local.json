@@ -464,5 +464,109 @@
     ],
     "force_relay": true
   },
-  "scope": "CPU-only local fixture, not native Isaac, owner WAN, or cross-network TURN. All protocol runs use the same1600x900 preencoded I/P60frame GOP at60fps;3warmups+10measured inputs. Cross-network direct ICE failed; public relay is still required."
+  "scope": "CPU-only local fixture, not native Isaac, owner WAN, or cross-network TURN. All protocol runs use the same1600x900 preencoded I/P60frame GOP at60fps;3warmups+10measured inputs. Cross-network direct ICE failed; public relay is still required.",
+  "remote5090_quic_constant_probe": {
+    "scope": "anonymous constant HTTP-only probe,5090 outboundCloudflareQUIC; no GPU/native video/control",
+    "rows": [
+      {
+        "trial": 0,
+        "warmup": true,
+        "ms": 1505.7570689823478,
+        "status": 200,
+        "constant_probe": true
+      },
+      {
+        "trial": 1,
+        "warmup": true,
+        "ms": 451.8566989572719,
+        "status": 200,
+        "constant_probe": true
+      },
+      {
+        "trial": 2,
+        "warmup": true,
+        "ms": 439.27229999098927,
+        "status": 200,
+        "constant_probe": true
+      },
+      {
+        "trial": 3,
+        "warmup": false,
+        "ms": 430.5846730712801,
+        "status": 200,
+        "constant_probe": true
+      },
+      {
+        "trial": 4,
+        "warmup": false,
+        "ms": 414.60767900571227,
+        "status": 200,
+        "constant_probe": true
+      },
+      {
+        "trial": 5,
+        "warmup": false,
+        "ms": 426.3140060938895,
+        "status": 200,
+        "constant_probe": true
+      },
+      {
+        "trial": 6,
+        "warmup": false,
+        "ms": 431.70141999144107,
+        "status": 200,
+        "constant_probe": true
+      },
+      {
+        "trial": 7,
+        "warmup": false,
+        "ms": 436.4431459689513,
+        "status": 200,
+        "constant_probe": true
+      },
+      {
+        "trial": 8,
+        "warmup": false,
+        "ms": 413.30380202271044,
+        "status": 200,
+        "constant_probe": true
+      },
+      {
+        "trial": 9,
+        "warmup": false,
+        "ms": 416.2613039370626,
+        "status": 200,
+        "constant_probe": true
+      },
+      {
+        "trial": 10,
+        "warmup": false,
+        "ms": 435.7143430970609,
+        "status": 200,
+        "constant_probe": true
+      },
+      {
+        "trial": 11,
+        "warmup": false,
+        "ms": 417.47492202557623,
+        "status": 200,
+        "constant_probe": true
+      },
+      {
+        "trial": 12,
+        "warmup": false,
+        "ms": 441.9129010057077,
+        "status": 200,
+        "constant_probe": true
+      }
+    ],
+    "summary": {
+      "n": 10,
+      "p50": 428.4493395825848,
+      "p95": 441.9129010057077
+    },
+    "edges": [
+      "lax08"
+    ]
+  }
 }
