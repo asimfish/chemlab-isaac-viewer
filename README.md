@@ -1,6 +1,6 @@
 # ChemLab · Isaac Sim browser access
 
-The current4GPU gallery session ends2026-10-23 01:26:13Asia/Taipei (2026-10-22 17:26:13UTC). Open https://asimfish.github.io/chemlab-isaac-viewer/; links disable automatically at expiry.
+The current4GPU gallery session ends2026-10-23 03:02:24Asia/Taipei (2026-10-22 19:02:24UTC). Open https://asimfish.github.io/chemlab-isaac-viewer/; links disable automatically at expiry.
 
 This project streams the complete official NVIDIA Isaac Sim GUI with203ChemLab assets in16halls. Four GPUs provide independent editable sessions; the originalH264 stream is relayed without JPEG conversion or another video encoder. The private GitHub Codespaces port requires owner login. GitHubPages hosts only the entry/source.
 
@@ -11,7 +11,7 @@ This project streams the complete official NVIDIA Isaac Sim GUI with203ChemLab a
 
 A CPU replay of the real stream handler shows300.49ms→0.038ms median input delivery when a300ms statistics query is pending. A controlled1600×90030fps I/P video fixture through the actual gateway/viewer improves from1133ms to350ms median; a second direct run gives320ms. Both direct runs have10/10 successful measured input trials after3warmups, andp95≈489ms. These are synthetic results, **not** a new native Isaac latency claim. See PERFORMANCE.md and ADR-005.md.
 
-The native retest now uses an outbound reverseSSH connection from the owned training task to the existing5090 host. No additional GPU development machine is started. The client generates its ephemeral SSH key inside its own container; only the public key is registered on the relay. Loopback-only fixed ports, command restrictions and an expiring public-key authorization bound this route. The task and local relay services retain the original one-hour budget. Two failed pre-render launches were verified terminal before replacement; an archive-selection error is now checked by running the actual deployment tar artifact through the CPU SSH lifecycle before submission. See ADR-006.md.
+The native retest now uses an outbound reverseSSH connection from the owned training task to the existing5090 host. No additional GPU development machine is started. The client generates its ephemeral SSH key inside its own container; only the public key is registered on the relay. Loopback-only fixed ports, command restrictions and an expiring public-key authorization bound this route. The task and local relay services retain the original one-hour budget. Renewal006 was submitted after the previous005 provider terminal and cleanup were verified. Before allocation, authenticated access and the exact tar CPU SSH lifecycle were tested. A redundant SSH-banner probe failure was caught and removed during CPU preparation. See ADR-006.md.
 
 ## Use and deployment
 
@@ -19,7 +19,7 @@ When a GPU session is live, open the stable entry in current Chrome/Edge, sign i
 
 `server/bridge.py` expects the official NVIDIA browser client on loopback18600 and an isolated ChromiumCDP listener on18619. Bind the gateway only toloopback18620 behind the verified authentication edge. `server/github_proxy.py` validates the configured public/localHost and normalized HTTPSOrigin, strips GitHub tokens/cookies and forwards only toloopback18622. Do not expose CDP or the raw job signaling ports publicly.
 
-`T588_SESSION_DEADLINE` must match the provider manifest. Set `T588_PUBLIC_HOST`, `T588_CODE_HOST` and `T588_ORIGIN_HOST` to the exact deployment hostnames. Keep all services and the Codespace stop timer bounded to that deadline. The GPU launcher uses finite `--seconds`; elapsed initialization is part of that window. Native30fps is set on both the timeline and app loop. Never put Zenith credentials in code, GitHub, browser URLs or the GPU job. SSH private keys remain local.
+`T588_SESSION_DEADLINE` must match the provider manifest. Set `T588_PUBLIC_HOST`, `T588_CODE_HOST` and `T588_ORIGIN_HOST` to the exact deployment hostnames. Keep all services and the Codespace stop timer bounded to that deadline. In the Codespace container set `T588_CODE_BIND=0.0.0.0` so the GitHub forwarding agent can reach the service; the standalone default remains loopback. The forwarded port stays private and root CDP/bridge listeners stay on loopback. The GPU launcher uses finite `--seconds`; elapsed initialization is part of that window. Native30fps is set on both the timeline and app loop. Never put Zenith credentials in code, GitHub, browser URLs or the GPU job. SSH private keys remain local.
 
 For a task-owned transport command, the standalone wrapper applies the measured policy without changing the shell or desktop:
 

@@ -1,3 +1,7 @@
+## Renewal006 availability · 2026-10-22
+
+This renewal ends2026-10-22 19:02:24UTC. Four actual203asset fullGUI1600x900 paths and native mouse menus passed, plus GPU0ASCII search/clear. A CPU access preflight fixed the same18620 private endpoint from404 to authenticated200 by binding the Codespace proxy to the container interface; anonymous requests redirect to GitHub sign-in. One later initialGPU1 request returned503 during a reverseSSH reconnect; its retry and the remaining views passed. This is bounded live acceptance, not uninterrupted-hour reliability. No new click-latency claim replaces the005 measurements below. [Access evidence](benchmarks/renewal006-access.json).
+
 ## Native5090 reverseSSH retest · 2026-10-22
 
 The actual official GUI loads the203asset stage on each of four independent renderers. Full native overview is visually verified with Window menu and ASCII Stage-search input; allfour camera views and mouse menus are visually verified. Session ends2026-10-22 17:26:13UTC, including startup/retries within the originally authorized4GPU-hour budget. Two pre-render launches failed and were verified terminal before replacements; they are retained privately. No GPU development machine was started.

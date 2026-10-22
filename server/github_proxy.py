@@ -3,6 +3,7 @@ import asyncio,contextlib,os,time
 CODE_HOST=os.environ.get('T588_CODE_HOST','gateway.invalid')
 ORIGIN_HOST=os.environ.get('T588_ORIGIN_HOST','origin.invalid')
 DEADLINE=float(os.environ.get('T588_SESSION_DEADLINE','1792599115.5804963'))
+BIND=os.environ.get('T588_CODE_BIND','127.0.0.1')
 LIMIT=asyncio.Semaphore(64)
 DROP={'authorization','cookie','x-github-token','x-forwarded-access-token','cf-access-jwt-assertion'}
 async def error(writer,status):
@@ -53,7 +54,8 @@ async def forward(reader,writer):
   with contextlib.suppress(Exception):await writer.wait_closed()
 async def main():
  if CODE_HOST=='gateway.invalid' or ORIGIN_HOST=='origin.invalid':raise RuntimeError('Missing fixed deployment hosts')
- server=await asyncio.start_server(forward,'127.0.0.1',18620,limit=16385)
+ if BIND not in ('127.0.0.1','0.0.0.0'):raise RuntimeError('Invalid bind interface')
+ server=await asyncio.start_server(forward,BIND,18620,limit=16385)
  print('T588_CODE_RELAY_READY http://localhost:18620 deadline='+str(DEADLINE),flush=True)
  async with server:await asyncio.sleep(max(0,DEADLINE-time.time()))
 if __name__=='__main__':asyncio.run(main())

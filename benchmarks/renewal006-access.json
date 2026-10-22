@@ -1,0 +1,65 @@
+{
+  "session": "006",
+  "job_id": "job-4gaqf5urkwm5",
+  "operation_id": "tt7oz5mht7cuyt1tzevawduq3",
+  "deadline_at": 1792695744.1272006,
+  "deadline_taipei": "2026-10-23T03:02:24.127201+08:00",
+  "views": [
+    {
+      "gpu": 0,
+      "video_connected": true,
+      "frames": 246,
+      "errors": [],
+      "mouse_menu": true,
+      "rtt": {
+        "n": 12,
+        "p50": 288,
+        "p95": 479
+      }
+    },
+    {
+      "gpu": 1,
+      "video_connected": true,
+      "frames": 226,
+      "errors": [],
+      "mouse_menu": true,
+      "rtt": {
+        "n": 9,
+        "p50": 267,
+        "p95": 288
+      }
+    },
+    {
+      "gpu": 2,
+      "video_connected": true,
+      "frames": 261,
+      "errors": [],
+      "mouse_menu": true,
+      "rtt": {
+        "n": 10,
+        "p50": 271,
+        "p95": 307
+      }
+    },
+    {
+      "gpu": 3,
+      "video_connected": true,
+      "frames": 224,
+      "errors": [],
+      "mouse_menu": true,
+      "rtt": {
+        "n": 9,
+        "p50": 273,
+        "p95": 274
+      }
+    }
+  ],
+  "keyboard_gpu0": "ASCII z and clear visually verified",
+  "codespace_private_auth_preflight": "authenticated200, anonymous302 sign-in after same-port container-bind fix",
+  "initial_failed_view": "GPU1 transient503 during SSH relay reconnect; retained privately; retry passed",
+  "tests": "18 boundary/control and2 server-timezone expiry PASS",
+  "private_interface": "Codespace proxy explicitly container interface; root origin/CDP remain loopback",
+  "client_closed_before_handoff": true,
+  "owner_network_verified": false,
+  "observed_at": 1792692789.1075397
+}
