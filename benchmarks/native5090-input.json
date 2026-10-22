@@ -1,0 +1,113 @@
+{
+  "summary": {
+    "workload": "Isaac native overview1600x900/30fps, fixed203asset gallery, Window-menu toggles",
+    "transport": "job -> reverseSSH5090 -> workstation native browser -> authenticated privateGitHub Codespace -> workstation test browser",
+    "warmups": 3,
+    "trials": 10,
+    "successes": 9,
+    "timeouts": 1,
+    "timeout_ms": 6000,
+    "successful_p50_ms": 567.8000000715256,
+    "successful_p95_nearest_rank_ms": 848.6000000238419,
+    "all_trials_p50_ms": 583.0500000119209,
+    "all_trials_p95_lower_bound_ms": 6000,
+    "notes": [
+      "Timeout retained, not included in conditional successful percentiles.",
+      "Not the end-user network.",
+      "One native GPU path has different network topology than historical baseline; no single-change causal claim."
+    ]
+  },
+  "trials": [
+    {
+      "trial": 0,
+      "warmup": true,
+      "started": 124198.39999997616,
+      "latency": 654.2000000476837,
+      "meanDelta": 122.68865497076024
+    },
+    {
+      "trial": 1,
+      "warmup": true,
+      "started": 125275.60000002384,
+      "latency": 543.3999999761581,
+      "meanDelta": 122.68760233918128
+    },
+    {
+      "trial": 2,
+      "warmup": true,
+      "started": 126242.10000002384,
+      "latency": 536.1999999284744,
+      "meanDelta": 122.71906432748538
+    },
+    {
+      "trial": 3,
+      "warmup": false,
+      "started": 127208.79999995232,
+      "latency": 566.7000000476837,
+      "meanDelta": 122.72105263157894
+    },
+    {
+      "trial": 4,
+      "warmup": false,
+      "started": 128259.19999992847,
+      "latency": 567.8000000715256,
+      "meanDelta": 122.68666666666667
+    },
+    {
+      "trial": 5,
+      "warmup": false,
+      "started": 129325.10000002384,
+      "latency": 557.1999999284744,
+      "meanDelta": 122.73263157894736
+    },
+    {
+      "trial": 6,
+      "warmup": false,
+      "started": 130308.89999997616,
+      "latency": 565.7999999523163,
+      "meanDelta": 122.69988304093567
+    },
+    {
+      "trial": 7,
+      "warmup": false,
+      "started": 131375.69999992847,
+      "latency": 848.6000000238419,
+      "meanDelta": 122.70245614035088
+    },
+    {
+      "trial": 8,
+      "warmup": false,
+      "started": 132742.19999992847,
+      "latency": 710.4000000953674,
+      "meanDelta": 122.6991812865497
+    },
+    {
+      "trial": 9,
+      "warmup": false,
+      "started": 133875.5,
+      "latency": 598.2999999523163,
+      "meanDelta": 122.65894736842105
+    },
+    {
+      "trial": 10,
+      "warmup": false,
+      "started": 134896.69999992847,
+      "latency": null,
+      "meanDelta": null
+    },
+    {
+      "trial": 11,
+      "warmup": false,
+      "started": 143591.69999992847,
+      "latency": 632.1000000238419,
+      "meanDelta": 122.69263157894737
+    },
+    {
+      "trial": 12,
+      "warmup": false,
+      "started": 144725.19999992847,
+      "latency": 549.7000000476837,
+      "meanDelta": 122.69356725146199
+    }
+  ]
+}

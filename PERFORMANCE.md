@@ -1,6 +1,14 @@
+## Native5090 reverseSSH retest · 2026-10-22
+
+The actual official GUI loads the203asset stage on each of four independent renderers. Full native overview is visually verified with Window menu and ASCII Stage-search input; allfour camera views and mouse menus are visually verified. Session ends2026-10-22 17:26:13UTC, including startup/retries within the originally authorized4GPU-hour budget. Two pre-render launches failed and were verified terminal before replacements; they are retained privately. No GPU development machine was started.
+
+Stable overview input uses3warmups plus10trials.9/10successful clicks have median567.8ms and conditionalp95/maximum848.6ms;1trial timed out after6seconds. Including the censored timeout, median is583.1ms and full-distributionp95 is at least6seconds. This improves the historical successful median972.2ms, while preserving its same1/10timeout count. These are separate-session measurements with route and scheduling differences; no universal latency or single-change causal reduction is claimed. Initial publicRTT is around296ms; native inbound stream remains1600×900/H264/30fps. Decoder errors were zero in the measured interval. The warmup-era input run is retained privately and is not substituted for the stable sample.
+
+The raw fixed-workload input record is [native5090-input.json](benchmarks/native5090-input.json). A60second static facility-camera observation stayed connected: decoded/presented 29.95/29.17fps, originalH264 payload 0.0259Mbps, publicRTT p50/p95 286/294ms, zero decoder/sequence errors. [Raw facility record](benchmarks/native5090-facility.json). No owner-browser, physical glass-to-glass, ChineseIME or mobile claim is made.
+
 # Latency optimization · 2026-10-22
 
-GPU retest remains pending the private-network gateway startup choice. All new measurements below use CPU-only fixtures and the actual authenticated privateGitHub gateway/browser.
+A native retest through the5090 reverseSSH relay is now recorded separately from the CPU fixtures below. Owner network latency is not measured.
 
 | Static I/P H2641600×90030fps fixture | Input p50 | Input p95 | Timeouts |
 |---|---:|---:|---:|
@@ -18,7 +26,7 @@ The real stream-handler contention replay holds a native-statistics query for300
 
 A heavier approximately1Mbps all-I fixture is retained separately:SSH1449/2879ms→WSS1024/1724ms p50/p95. It is not combined with the staticGOP or native results. A raw-browser no-decode probe lacked a surviving auth session and produced no valid result; it is excluded. One control setup failed because systemd rejected unset-style environment flags; it produced no timing sample and is retained privately.
 
-No new nativeGPU latency is claimed. The original4hour task is providerSucceeded, its2GPUdev gateway isSTOPPED, and restarting those additional cards is awaiting the owner. The new4GPU1hour allocation is authorized but not yet created. The historical native972ms median was measured on the older route, with9/10successful trials; it must not be replaced by these synthetic numbers.
+The new native session uses an outbound5090 reverseSSH relay; the2GPUdev remainsSTOPPED. The historical native972ms median was measured on the older route, with9/10successful trials; it must not be replaced by these synthetic numbers.
 
 ## Historical GitHub session performance · 2026-10-22
 

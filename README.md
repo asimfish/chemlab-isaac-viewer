@@ -1,6 +1,6 @@
 # ChemLab · Isaac Sim browser access
 
-The previous4hour GPU session ended2026-10-22 04:42:04Asia/Taipei. The stable entry disables its expired links: https://asimfish.github.io/chemlab-isaac-viewer/.
+The current4GPU gallery session ends2026-10-23 01:26:13Asia/Taipei (2026-10-22 17:26:13UTC). Open https://asimfish.github.io/chemlab-isaac-viewer/; links disable automatically at expiry.
 
 This project streams the complete official NVIDIA Isaac Sim GUI with203ChemLab assets in16halls. Four GPUs provide independent editable sessions; the originalH264 stream is relayed without JPEG conversion or another video encoder. The private GitHub Codespaces port requires owner login. GitHubPages hosts only the entry/source.
 
@@ -11,7 +11,7 @@ This project streams the complete official NVIDIA Isaac Sim GUI with203ChemLab a
 
 A CPU replay of the real stream handler shows300.49ms→0.038ms median input delivery when a300ms statistics query is pending. A controlled1600×90030fps I/P video fixture through the actual gateway/viewer improves from1133ms to350ms median; a second direct run gives320ms. Both direct runs have10/10 successful measured input trials after3warmups, andp95≈489ms. These are synthetic results, **not** a new native Isaac latency claim. See PERFORMANCE.md and ADR-005.md.
 
-The owner authorized a new4GPU1hour retest. It has not been submitted because the original2GPU development machine required for private job-network forwarding is nowSTOPPED. Starting those additional cards temporarily is awaiting a separate owner choice. The personal API does not permit direct jobSSH/terminal, and noCPU-only assigned offering is available. No policy workaround or unapproved GPU allocation is used.
+The native retest now uses an outbound reverseSSH connection from the owned training task to the existing5090 host. No additional GPU development machine is started. The client generates its ephemeral SSH key inside its own container; only the public key is registered on the relay. Loopback-only fixed ports, command restrictions and an expiring public-key authorization bound this route. The task and local relay services retain the original one-hour budget. Two failed pre-render launches were verified terminal before replacement; an archive-selection error is now checked by running the actual deployment tar artifact through the CPU SSH lifecycle before submission. See ADR-006.md.
 
 ## Use and deployment
 
