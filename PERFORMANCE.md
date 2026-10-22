@@ -1,4 +1,26 @@
-# GitHub session performance · 2026-10-22
+# Latency optimization · 2026-10-22
+
+GPU retest remains pending the private-network gateway startup choice. All new measurements below use CPU-only fixtures and the actual authenticated privateGitHub gateway/browser.
+
+| Static I/P H2641600×90030fps fixture | Input p50 | Input p95 | Timeouts |
+|---|---:|---:|---:|
+| OriginalSSH route and inherited browser proxy |1133ms|2017ms|0/10|
+| WSS prototype, inherited browser proxy |854ms|944ms|0/10|
+| WSS prototype, isolated direct browser |448ms|487ms|0/10|
+| SelectedSSH direct policy, direct browser |350ms|489ms|0/10|
+| Selected policy repeated |320ms|488ms|0/10|
+
+Each run has3warmups and10measured clicks. Same fixture, resolution, frame rate, viewer, proxy endpoint and pixel-change detector. It uses60frame I/P GOPs; each click changes the synthetic menu at the next frame. These measurements do not include Isaac rendering/input. Route/browser changes were staged sequentially; process/profile restarts and changing network conditions remain confounders. The direct-policy repeat supports the result without proving a universal end-user number. The inherited system proxy was observed before making any change; global settings were left untouched.
+
+The selected policy preserves the originalSSH architecture and changes only task-local process routing plus bounded asynchronous native statistics. The more complex WSS prototype was measured and rejected for production because the simpler candidate measured better. Its CPU echo test gave579.7→357.9ms p50,1140.6→374.6ms p95(3warmups+30samples), but echo alone did not select the final design.
+
+The real stream-handler contention replay holds a native-statistics query for300ms and sends a mouse event while it is pending. Asynchronous/coalesced snapshots change input-delivery median300.49ms→0.038ms,3warmups+10samples. This removes an intermittent blocking source, not300ms from every click.18core auth/proxy/input tests pass, including pending-statistics input, duplicate coalescing and cancellation. A separate5test prototype boundary gate passes.
+
+A heavier approximately1Mbps all-I fixture is retained separately:SSH1449/2879ms→WSS1024/1724ms p50/p95. It is not combined with the staticGOP or native results. A raw-browser no-decode probe lacked a surviving auth session and produced no valid result; it is excluded. One control setup failed because systemd rejected unset-style environment flags; it produced no timing sample and is retained privately.
+
+No new nativeGPU latency is claimed. The original4hour task is providerSucceeded, its2GPUdev gateway isSTOPPED, and restarting those additional cards is awaiting the owner. The new4GPU1hour allocation is authorized but not yet created. The historical native972ms median was measured on the older route, with9/10successful trials; it must not be replaced by these synthetic numbers.
+
+## Historical GitHub session performance · 2026-10-22
 
 Workstation Chromium140, Isaac fullGUI1600×900, native30fps, fixed facility camera in the203asset gallery. Private2core SoutheastAsia Codespaces route over reverseSSH, without Cloudflare in the data path. End-user network is not measured.
 

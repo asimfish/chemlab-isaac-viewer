@@ -1,0 +1,87 @@
+{
+  "fixture": "CPU synthetic interactive H2641600x90030fps; actual private GitHub gateway/viewer; no Isaac/GPU",
+  "route": "ssh_direct_repeat_gop",
+  "rows": [
+    {
+      "trial": 0,
+      "warmup": true,
+      "started": 5490.5,
+      "latency": 330.3000000715256
+    },
+    {
+      "trial": 1,
+      "warmup": true,
+      "started": 6051.899999976158,
+      "latency": 320
+    },
+    {
+      "trial": 2,
+      "warmup": true,
+      "started": 6618.800000071526,
+      "latency": 319.2999999523163
+    },
+    {
+      "trial": 3,
+      "warmup": false,
+      "started": 7185.300000071526,
+      "latency": 319.6999999284744
+    },
+    {
+      "trial": 4,
+      "warmup": false,
+      "started": 7752.100000023842,
+      "latency": 319.5
+    },
+    {
+      "trial": 5,
+      "warmup": false,
+      "started": 8318.899999976158,
+      "latency": 319.2000000476837
+    },
+    {
+      "trial": 6,
+      "warmup": false,
+      "started": 8885.5,
+      "latency": 319.5
+    },
+    {
+      "trial": 7,
+      "warmup": false,
+      "started": 9451.800000071526,
+      "latency": 318.89999997615814
+    },
+    {
+      "trial": 8,
+      "warmup": false,
+      "started": 10018.600000023842,
+      "latency": 319.39999997615814
+    },
+    {
+      "trial": 9,
+      "warmup": false,
+      "started": 10590.5,
+      "latency": 442.7000000476837
+    },
+    {
+      "trial": 10,
+      "warmup": false,
+      "started": 11251.600000023842,
+      "latency": 365.7000000476837
+    },
+    {
+      "trial": 11,
+      "warmup": false,
+      "started": 11852.100000023842,
+      "latency": 333.2000000476837
+    },
+    {
+      "trial": 12,
+      "warmup": false,
+      "started": 12419.899999976158,
+      "latency": 488.40000009536743
+    }
+  ],
+  "p50_ms": 319.6999999284744,
+  "p95_ms": 488.40000009536743,
+  "timeouts": 0
+}

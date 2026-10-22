@@ -126,6 +126,12 @@ async def stream(req):
             data=await w.queue.get()
             await asyncio.wait_for(ws.send_bytes(data),3)
     sender=asyncio.create_task(push())
+    stats_task=None
+    async def report_stats():
+        try:
+            stats=await w.stats()
+            if not ws.closed:await ws.send_json({'type':'native-stats','stats':stats})
+        except (asyncio.TimeoutError,ConnectionError):pass
     try:
         await ws.send_json({'type':'session','gpu':gpu,'deadline':DEADLINE,'width':1600,'height':900})
         await w.start()
@@ -136,10 +142,16 @@ async def stream(req):
             except ValueError:continue
             if not isinstance(m,dict):continue
             if m.get('type')=='ping':await ws.send_json({'type':'pong','id':m.get('id'),'client':m.get('client'),'server':time.time()*1000})
-            elif m.get('type')=='stats':await ws.send_json({'type':'native-stats','stats':await w.stats()})
+            elif m.get('type')=='stats':
+                # CDP statistics may be slow; never hold native input behind them.
+                # Coalesce repeated requests to one bounded in-flight snapshot.
+                if stats_task is None or stats_task.done():stats_task=asyncio.create_task(report_stats())
             elif not w.input.full():w.input.put_nowait(m)
     finally:
-        sender.cancel();await asyncio.gather(sender,return_exceptions=True);await w.close()
+        sender.cancel()
+        if stats_task:stats_task.cancel()
+        await asyncio.gather(sender,*([stats_task] if stats_task else []),return_exceptions=True)
+        await w.close()
         if WORKERS.get(gpu) is w:WORKERS.pop(gpu,None)
     return ws
 

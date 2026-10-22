@@ -1,0 +1,15 @@
+{
+  "before": {
+    "p50_ms": 579.7183715039864,
+    "p95_ms": 1140.6301429960877,
+    "stdev_ms": 215.95923253208122
+  },
+  "after": {
+    "p50_ms": 357.865210971795,
+    "p95_ms": 374.64221694972366,
+    "stdev_ms": 6.819967021774739
+  },
+  "p50_reduction_percent": 38.26912712057562,
+  "p95_reduction_percent": 67.15480304898371,
+  "scope": "CPU echo workload; same client/endpoint/fixed-origin;30samples after3warmups; no nativeGPU or codec; not a fullGUI latency result"
+}

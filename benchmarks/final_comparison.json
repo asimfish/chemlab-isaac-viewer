@@ -1,0 +1,40 @@
+{
+  "fixture": "CPU static I/P H2641600x90030fps,60frame keyframe interval;3warmups+10trials each; no Isaac/GPU",
+  "ssh_system_proxy": {
+    "p50_ms": 1133.1000000238419,
+    "p95_ms": 2017,
+    "timeouts": 0
+  },
+  "wss_system_proxy": {
+    "p50_ms": 853.6000000238419,
+    "p95_ms": 943.7999999523163,
+    "timeouts": 0
+  },
+  "wss_isolated_direct_browser": {
+    "p50_ms": 448.1999999284744,
+    "p95_ms": 486.90000009536743,
+    "timeouts": 0
+  },
+  "decoder_errors": [],
+  "direct_browser_rtt": {
+    "n": 8,
+    "p50": 385,
+    "p95": 400
+  },
+  "limits": [
+    "not a nativeGPUtest",
+    "systemproxy setting remains untouched",
+    "one variable changed per stage; browser process/profile restart remains a confounder; dedicated direct repeat is planned"
+  ],
+  "selected_direct_ssh": {
+    "p50_ms": 349.7000000476837,
+    "p95_ms": 489.1999999284744,
+    "timeouts": 0
+  },
+  "selected_direct_ssh_repeat": {
+    "p50_ms": 319.6999999284744,
+    "p95_ms": 488.40000009536743,
+    "timeouts": 0
+  },
+  "status": "CPU candidate prepared; actualGPU retest pending extra2GPUgateway authorization"
+}

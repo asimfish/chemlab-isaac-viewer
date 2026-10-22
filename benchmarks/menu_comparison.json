@@ -1,0 +1,16 @@
+{
+  "fixture": "CPU synthetic interactive H2641600x90030fps; actual private GitHub gateway/viewer; no Isaac/GPU",
+  "before": {
+    "p50_ms": 1133.1000000238419,
+    "p95_ms": 2017,
+    "timeouts": 0
+  },
+  "after": {
+    "p50_ms": 853.6000000238419,
+    "p95_ms": 943.7999999523163,
+    "timeouts": 0
+  },
+  "p50_reduction_percent": 24.666843173075538,
+  "p95_reduction_percent": 53.2077342611643,
+  "note": "CPU static I/P GOP fixture,60frame keyframe interval,3warmups+10trials; no Isaac/GPU"
+}
