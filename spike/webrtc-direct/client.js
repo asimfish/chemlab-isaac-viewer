@@ -1,0 +1,20 @@
+const $=s=>document.querySelector(s),v=$('#screen');let pc,dc,ws,rtts=[],frames=0;window.__rtcMetrics={};const gpu=new URLSearchParams(location.search).get('gpu');
+function send(m){if(dc?.readyState==='open')dc.send(JSON.stringify(m))}
+$('#connect').onclick=async()=>{
+ await pc?.close();rtts=[];pc=new RTCPeerConnection(await(await fetch('/config',{cache:'no-store'})).json());dc=pc.createDataChannel('input',{ordered:true});
+ dc.onopen=()=>{send({type:'controls',mode:$('#direction').value});$('#status').textContent='已直连'};
+ dc.onmessage=e=>{const m=JSON.parse(e.data);if(m.type==='pong')rtts.push(Date.now()-m.client);if(m.type==='native-stats')window.__nativeStats=m.stats};
+ pc.onconnectionstatechange=()=>$('#status').textContent='WebRTC '+pc.connectionState;
+ pc.ontrack=e=>{v.srcObject=new MediaStream([e.track]);v.play().catch(()=>{});const receiver=e.receiver;if('jitterBufferTarget'in receiver)receiver.jitterBufferTarget=0};
+ if(gpu!==null){const t=pc.addTransceiver('video',{direction:'recvonly'});t.setCodecPreferences(RTCRtpReceiver.getCapabilities('video').codecs.filter(c=>c.mimeType.toLowerCase()==='video/h264'))}
+ await pc.setLocalDescription(await pc.createOffer());if(pc.iceGatheringState!=='complete')await new Promise(r=>{pc.addEventListener('icegatheringstatechange',()=>{if(pc.iceGatheringState==='complete')r()});setTimeout(r,7000)});
+ ws=new WebSocket(`${location.protocol==='https:'?'wss:':'ws:'}//${location.host}/signal${gpu===null?'':'?gpu='+gpu}`);ws.onopen=()=>ws.send(JSON.stringify({type:'offer',sdp:pc.localDescription.sdp}));ws.onmessage=async e=>{const m=JSON.parse(e.data);if(m.type==='answer')await pc.setRemoteDescription(m)};
+};
+$('#direction').onchange=()=>send({type:'controls',mode:$('#direction').value});
+const mods=e=>(e.altKey?1:0)|(e.ctrlKey?2:0)|(e.metaKey?4:0)|(e.shiftKey?8:0),point=e=>{const r=v.getBoundingClientRect();return{x:Math.max(0,Math.min(1,(e.clientX-r.x)/r.width)),y:Math.max(0,Math.min(1,(e.clientY-r.y)/r.height))}};
+for(const [event,action]of[['pointermove','mouseMoved'],['pointerdown','mousePressed'],['pointerup','mouseReleased']])v.addEventListener(event,e=>{e.preventDefault();if(event==='pointerdown'){v.focus();v.setPointerCapture(e.pointerId)}send({type:'mouse',action,...point(e),button:action==='mouseMoved'?'none':['left','middle','right'][e.button],buttons:e.buttons,modifiers:mods(e),clickCount:1})});
+v.addEventListener('contextmenu',e=>e.preventDefault());v.addEventListener('wheel',e=>{e.preventDefault();send({type:'mouse',action:'mouseWheel',...point(e),dx:e.deltaX,dy:e.deltaY,modifiers:mods(e)})},{passive:false});
+for(const [event,action]of[['keydown','keyDown'],['keyup','keyUp']])v.addEventListener(event,e=>{e.preventDefault();send({type:'key',action,key:e.key,code:e.code,keyCode:e.keyCode,modifiers:mods(e)})});
+const pct=(a,p)=>a.length?[...a].sort((a,b)=>a-b)[Math.min(a.length-1,Math.floor(a.length*p))]:null;
+setInterval(async()=>{send({type:'ping',client:Date.now()});if(!pc)return;const reports=await pc.getStats(),rows=[...reports.values()];const chosen=rows.filter(r=>r.type==='candidate-pair'&&r.state==='succeeded').map(r=>({rtt:r.currentRoundTripTime,bytesReceived:r.bytesReceived,bytesSent:r.bytesSent}));const video=rows.find(r=>r.type==='inbound-rtp'&&r.kind==='video');window.__rtcMetrics={state:pc.connectionState,ice:pc.iceConnectionState,control:dc.readyState,rtt:{n:rtts.length,p50:pct(rtts.slice(3),.5),p95:pct(rtts.slice(3),.95)},video:video?{frames:video.framesDecoded,fps:video.framesPerSecond,lost:video.packetsLost,dropped:video.framesDropped,freezes:video.freezeCount,width:video.frameWidth,height:video.frameHeight}:null,candidate:chosen,candidates:rows.filter(r=>r.type==='local-candidate'||r.type==='remote-candidate').map(r=>({type:r.type,kind:r.candidateType,address:r.address,port:r.port,protocol:r.protocol})),native:window.__nativeStats};$('#metrics').textContent=`${window.__rtcMetrics.rtt.p50??'—'} ms · ${video?.framesPerSecond??0} fps`;rtts=rtts.slice(-300)},1000);
+window.addEventListener('pagehide',()=>pc?.close());

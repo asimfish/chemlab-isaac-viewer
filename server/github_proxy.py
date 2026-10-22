@@ -4,6 +4,8 @@ CODE_HOST=os.environ.get('T588_CODE_HOST','gateway.invalid')
 ORIGIN_HOST=os.environ.get('T588_ORIGIN_HOST','origin.invalid')
 DEADLINE=float(os.environ.get('T588_SESSION_DEADLINE','1792599115.5804963'))
 BIND=os.environ.get('T588_CODE_BIND','127.0.0.1')
+CODE_PORT=int(os.environ.get('T588_CODE_PORT','18620'))
+UPSTREAM_PORT=int(os.environ.get('T588_UPSTREAM_PORT','18622'))
 LIMIT=asyncio.Semaphore(64)
 DROP={'authorization','cookie','x-github-token','x-forwarded-access-token','cf-access-jwt-assertion'}
 async def error(writer,status):
@@ -27,14 +29,14 @@ async def forward(reader,writer):
     if key in ('content-length','transfer-encoding'):raise ValueError()
     if key=='upgrade' and value.lower()=='websocket':ws=True
     if key not in DROP and key not in ('host','origin','connection'):rows.append((name,value))
-   if len(hosts)!=1 or hosts[0]not in (CODE_HOST,'127.0.0.1:18620','localhost:18620'):await error(writer,'403 Forbidden');return
+   if len(hosts)!=1 or hosts[0]not in (CODE_HOST,'127.0.0.1:'+str(CODE_PORT),'localhost:'+str(CODE_PORT)):await error(writer,'403 Forbidden');return
    # GitHub rewrites same-origin HTTPS requests to this exact local origin.
    # Foreign origins remain unchanged and must still be rejected.
-   if origins and not (len(origins)==1 and origins[0] in ('https://'+CODE_HOST,'https://localhost:18620')):await error(writer,'403 Forbidden');return
+   if origins and not (len(origins)==1 and origins[0] in ('https://'+CODE_HOST,'https://localhost:'+str(CODE_PORT))):await error(writer,'403 Forbidden');return
    if ws and not origins:await error(writer,'403 Forbidden');return
    rows.append(('Host',ORIGIN_HOST));rows.append(('Connection','Upgrade' if ws else 'close'))
    if origins:rows.append(('Origin','https://'+ORIGIN_HOST))
-   try:ur,upstream=await asyncio.wait_for(asyncio.open_connection('127.0.0.1',18622),5)
+   try:ur,upstream=await asyncio.wait_for(asyncio.open_connection('127.0.0.1',UPSTREAM_PORT),5)
    except (OSError,asyncio.TimeoutError):await error(writer,'503 Service Unavailable');return
    upstream.write((lines[0]+'\r\n'+''.join(k+': '+v+'\r\n'for k,v in rows)+'\r\n').encode('latin1'));await upstream.drain()
    async def copy(source,target):
@@ -55,7 +57,8 @@ async def forward(reader,writer):
 async def main():
  if CODE_HOST=='gateway.invalid' or ORIGIN_HOST=='origin.invalid':raise RuntimeError('Missing fixed deployment hosts')
  if BIND not in ('127.0.0.1','0.0.0.0'):raise RuntimeError('Invalid bind interface')
- server=await asyncio.start_server(forward,BIND,18620,limit=16385)
- print('T588_CODE_RELAY_READY http://localhost:18620 deadline='+str(DEADLINE),flush=True)
+ if not (1024<=CODE_PORT<=65535 and 1024<=UPSTREAM_PORT<=65535):raise RuntimeError('Invalid fixed port')
+ server=await asyncio.start_server(forward,BIND,CODE_PORT,limit=16385)
+ print('T588_CODE_RELAY_READY http://localhost:'+str(CODE_PORT)+' deadline='+str(DEADLINE),flush=True)
  async with server:await asyncio.sleep(max(0,DEADLINE-time.time()))
 if __name__=='__main__':asyncio.run(main())

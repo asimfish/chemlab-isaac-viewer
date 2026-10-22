@@ -1,0 +1,468 @@
+{
+  "local_ws60": {
+    "workload": "CPU only, same preencoded1600x900 I/P H26460fps synthetic menu; local transport, not Isaac or owner WAN",
+    "mode": "ws",
+    "rows": [
+      {
+        "i": 0,
+        "warmup": true,
+        "started": 2182,
+        "latency": 35.199999928474426
+      },
+      {
+        "i": 1,
+        "warmup": true,
+        "started": 2565,
+        "latency": 35.699999928474426
+      },
+      {
+        "i": 2,
+        "warmup": true,
+        "started": 2932.0999999046326,
+        "latency": 34.300000071525574
+      },
+      {
+        "i": 3,
+        "warmup": false,
+        "started": 3298.2999999523163,
+        "latency": 34.700000047683716
+      },
+      {
+        "i": 4,
+        "warmup": false,
+        "started": 3664.899999976158,
+        "latency": 35.10000002384186
+      },
+      {
+        "i": 5,
+        "warmup": false,
+        "started": 4031.5999999046326,
+        "latency": 34.90000009536743
+      },
+      {
+        "i": 6,
+        "warmup": false,
+        "started": 4398.5,
+        "latency": 34.39999997615814
+      },
+      {
+        "i": 7,
+        "warmup": false,
+        "started": 4764.699999928474,
+        "latency": 36.10000002384186
+      },
+      {
+        "i": 8,
+        "warmup": false,
+        "started": 5132,
+        "latency": 34.799999952316284
+      },
+      {
+        "i": 9,
+        "warmup": false,
+        "started": 5498.5,
+        "latency": 34.699999928474426
+      },
+      {
+        "i": 10,
+        "warmup": false,
+        "started": 5865.199999928474,
+        "latency": 34.39999997615814
+      },
+      {
+        "i": 11,
+        "warmup": false,
+        "started": 6248.5,
+        "latency": 34.799999952316284
+      },
+      {
+        "i": 12,
+        "warmup": false,
+        "started": 6615.299999952316,
+        "latency": 35.200000047683716
+      }
+    ],
+    "summary": {
+      "n": 10,
+      "p50": 34.799999952316284,
+      "p95": 36.10000002384186
+    },
+    "initial": {
+      "gpu": 3,
+      "connected": true,
+      "close": null,
+      "frames": 115,
+      "drawn": 108,
+      "received": 115,
+      "bytes": 11823,
+      "seconds": 1.9156000000238418,
+      "mbps": 0.04937565253644957,
+      "fps": 60.033409896935005,
+      "rtt": {
+        "n": 1,
+        "p50": null,
+        "p95": null
+      },
+      "receiveToDecode": {
+        "n": 115,
+        "p50": 0.6000000238418579,
+        "p95": 1
+      },
+      "estimatedRelayToDecode": {
+        "n": 60,
+        "p50": 1.079833984375,
+        "p95": 1.79833984375,
+        "note": "Clock offset estimated by minimum RTT; excludes GPU encode and private WebRTC leg; decode completion is not glass-to-glass display."
+      },
+      "decodeQueueMax": 5,
+      "pointerMode": "native",
+      "errors": [],
+      "native": null
+    },
+    "final": {
+      "gpu": 3,
+      "connected": true,
+      "close": null,
+      "frames": 355,
+      "drawn": 328,
+      "received": 355,
+      "bytes": 76683,
+      "seconds": 5.915800000071526,
+      "mbps": 0.10369924608549694,
+      "fps": 60.00879001922104,
+      "rtt": {
+        "n": 5,
+        "p50": 3,
+        "p95": 3
+      },
+      "receiveToDecode": {
+        "n": 355,
+        "p50": 0.40000009536743164,
+        "p95": 0.8999999761581421
+      },
+      "estimatedRelayToDecode": {
+        "n": 300,
+        "p50": 0.9140625,
+        "p95": 14.352783203125,
+        "note": "Clock offset estimated by minimum RTT; excludes GPU encode and private WebRTC leg; decode completion is not glass-to-glass display."
+      },
+      "decodeQueueMax": 5,
+      "pointerMode": "native",
+      "errors": [],
+      "native": {
+        "fixture": "CPU synthetic menu, no Isaac or GPU"
+      }
+    }
+  },
+  "local_rtc60": {
+    "workload": "CPU only, same preencoded1600x900 I/P H26460fps synthetic menu; local transport, not Isaac or owner WAN",
+    "mode": "rtc",
+    "rows": [
+      {
+        "i": 0,
+        "warmup": true,
+        "started": 14184.600000023842,
+        "latency": 29
+      },
+      {
+        "i": 1,
+        "warmup": true,
+        "started": 14542.200000047684,
+        "latency": 36.10000002384186
+      },
+      {
+        "i": 2,
+        "warmup": true,
+        "started": 14898.800000071526,
+        "latency": 29.799999952316284
+      },
+      {
+        "i": 3,
+        "warmup": false,
+        "started": 15256.800000071526,
+        "latency": 22.600000023841858
+      },
+      {
+        "i": 4,
+        "warmup": false,
+        "started": 15614.700000047684,
+        "latency": 31.100000023841858
+      },
+      {
+        "i": 5,
+        "warmup": false,
+        "started": 15970.900000095367,
+        "latency": 24.899999976158142
+      },
+      {
+        "i": 6,
+        "warmup": false,
+        "started": 16344.100000023842,
+        "latency": 35.60000002384186
+      },
+      {
+        "i": 7,
+        "warmup": false,
+        "started": 16700.5,
+        "latency": 28.40000009536743
+      },
+      {
+        "i": 8,
+        "warmup": false,
+        "started": 17057.5,
+        "latency": 22
+      },
+      {
+        "i": 9,
+        "warmup": false,
+        "started": 17415,
+        "latency": 31
+      },
+      {
+        "i": 10,
+        "warmup": false,
+        "started": 17772.5,
+        "latency": 23.200000047683716
+      },
+      {
+        "i": 11,
+        "warmup": false,
+        "started": 18129.200000047684,
+        "latency": 33.39999997615814
+      },
+      {
+        "i": 12,
+        "warmup": false,
+        "started": 18486,
+        "latency": 25.800000071525574
+      }
+    ],
+    "summary": {
+      "n": 10,
+      "p50": 28.40000009536743,
+      "p95": 35.60000002384186
+    },
+    "initial": {
+      "state": "connected",
+      "ice": "connected",
+      "control": "open",
+      "rtt": {
+        "n": 1,
+        "p50": null,
+        "p95": null
+      },
+      "video": {
+        "frames": 111,
+        "fps": 60,
+        "lost": 0,
+        "dropped": 0,
+        "freezes": 0,
+        "width": 1600,
+        "height": 900
+      }
+    },
+    "final": {
+      "state": "connected",
+      "ice": "connected",
+      "control": "open",
+      "rtt": {
+        "n": 5,
+        "p50": 1,
+        "p95": 1
+      },
+      "video": {
+        "frames": 351,
+        "fps": 60,
+        "lost": 0,
+        "dropped": 0,
+        "freezes": 0,
+        "width": 1600,
+        "height": 900
+      }
+    }
+  },
+  "local_turn60": {
+    "workload": "CPU only, same preencoded1600x900 I/P H26460fps synthetic menu; local transport, not Isaac or owner WAN",
+    "mode": "rtc",
+    "rows": [
+      {
+        "i": 0,
+        "warmup": true,
+        "started": 14210.299999952316,
+        "latency": 42.60000002384186
+      },
+      {
+        "i": 1,
+        "warmup": true,
+        "started": 14566.5,
+        "latency": 36.5
+      },
+      {
+        "i": 2,
+        "warmup": true,
+        "started": 14922.399999976158,
+        "latency": 47.10000002384186
+      },
+      {
+        "i": 3,
+        "warmup": false,
+        "started": 15278.699999928474,
+        "latency": 58.90000009536743
+      },
+      {
+        "i": 4,
+        "warmup": false,
+        "started": 15647.600000023842,
+        "latency": 38.59999990463257
+      },
+      {
+        "i": 5,
+        "warmup": false,
+        "started": 16002.399999976158,
+        "latency": 34.799999952316284
+      },
+      {
+        "i": 6,
+        "warmup": false,
+        "started": 16358.100000023842,
+        "latency": 29
+      },
+      {
+        "i": 7,
+        "warmup": false,
+        "started": 16714.699999928474,
+        "latency": 38
+      },
+      {
+        "i": 8,
+        "warmup": false,
+        "started": 17071.100000023842,
+        "latency": 32
+      },
+      {
+        "i": 9,
+        "warmup": false,
+        "started": 17427.699999928474,
+        "latency": 42.800000071525574
+      },
+      {
+        "i": 10,
+        "warmup": false,
+        "started": 17784,
+        "latency": 35.39999997615814
+      },
+      {
+        "i": 11,
+        "warmup": false,
+        "started": 18139.5,
+        "latency": 29.699999928474426
+      },
+      {
+        "i": 12,
+        "warmup": false,
+        "started": 18494.799999952316,
+        "latency": 41.300000071525574
+      }
+    ],
+    "summary": {
+      "n": 10,
+      "p50": 38,
+      "p95": 58.90000009536743
+    },
+    "initial": {
+      "state": "connected",
+      "ice": "connected",
+      "control": "open",
+      "rtt": {
+        "n": 1,
+        "p50": null,
+        "p95": null
+      },
+      "video": {
+        "frames": 79,
+        "fps": 60,
+        "lost": 0,
+        "dropped": 0,
+        "freezes": 0,
+        "width": 1600,
+        "height": 900
+      }
+    },
+    "final": {
+      "state": "connected",
+      "ice": "connected",
+      "control": "open",
+      "rtt": {
+        "n": 5,
+        "p50": 1,
+        "p95": 1
+      },
+      "video": {
+        "frames": 319,
+        "fps": 60,
+        "lost": 0,
+        "dropped": 0,
+        "freezes": 0,
+        "width": 1600,
+        "height": 900
+      }
+    }
+  },
+  "local_turn60_steady": {
+    "seconds": 185,
+    "before": {
+      "state": "connected",
+      "ice": "connected",
+      "control": "open",
+      "rtt": {
+        "n": 5,
+        "p50": 1,
+        "p95": 1
+      },
+      "video": {
+        "frames": 319,
+        "fps": 60,
+        "lost": 0,
+        "dropped": 0,
+        "freezes": 0,
+        "width": 1600,
+        "height": 900
+      }
+    },
+    "after": {
+      "state": "connected",
+      "ice": "connected",
+      "control": "open",
+      "rtt": {
+        "n": 190,
+        "p50": 1,
+        "p95": 1
+      },
+      "video": {
+        "frames": 11419,
+        "fps": 60,
+        "lost": 0,
+        "dropped": 0,
+        "freezes": 0,
+        "width": 1600,
+        "height": 900
+      }
+    }
+  },
+  "turn_auth_live": {
+    "realm": "loopback-only lab",
+    "auth_results": [
+      {
+        "credential_valid": false,
+        "allocated": false,
+        "error": "TransactionFailed"
+      },
+      {
+        "credential_valid": true,
+        "allocated": true
+      }
+    ],
+    "force_relay": true
+  },
+  "scope": "CPU-only local fixture, not native Isaac, owner WAN, or cross-network TURN. All protocol runs use the same1600x900 preencoded I/P60frame GOP at60fps;3warmups+10measured inputs. Cross-network direct ICE failed; public relay is still required."
+}

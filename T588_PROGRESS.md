@@ -1,3 +1,5 @@
+2026-10-22 · RTC007 CPU candidate prepared: original-H264 WebRTC/data-channel and authenticatedTURN work locally at60fps; forced-relay input38/58.9ms p50/p95 and185s stable. Wrong credentials denied. Cross-network direct ICE failed; domestic publicUDP/SSH mapping information requested, no endpoint yet supplied. Native60fps/public rollout pending.006 providerSucceeded and exact cleanup confirmed; no new GPU allocation.12candidate+26core/JS checks pass; review pending.
+
 2026-10-22 · T-588 interaction update: owner access confirmed, native input path still about0.6s. Added persistent per-viewer camera-direction choice and ordered pending-motion coalescing.24Python regressions and JS camera/GUI coordinates pass; private native opposite-motion images, click tests and27coalesced-move burst verified. WAN-burst queue median410.50→33.34ms; full native click median566.9→594.6ms, no end-to-end improvement claim. Initial relative-only candidate and503 failure retained. GPU2 camera restored from immutable source; task expires19:02:24UTC, no new GPU allocation. Review pending.
 
 Refs: T-588

@@ -1,6 +1,8 @@
 # ChemLab · Isaac Sim browser access
 
-The current4GPU gallery session ends2026-10-23 03:02:24Asia/Taipei (2026-10-22 19:02:24UTC). Open https://asimfish.github.io/chemlab-isaac-viewer/; links disable automatically at expiry.
+The4GPU006 session ended2026-10-22 19:02:28UTC and its expiring key/viewer/Codespace cleanup completed. The stable entry https://asimfish.github.io/chemlab-isaac-viewer/ disables expired links. No new GPU task is running for this transport experiment.
+
+The next low-latency candidate uses original-H264 WebRTC and an input data channel, with GitHub used only for authenticated signaling. Local60fps and forced authenticatedTURN tests pass; a domestic publicIPv4/UDP relay and native GPU/WAN acceptance are still needed. See [candidate deployment package](spike/webrtc-direct/README.md) and PERFORMANCE.md; it has not replaced the native user service.
 
 This project streams the complete official NVIDIA Isaac Sim GUI with203ChemLab assets in16halls. Four GPUs provide independent editable sessions; the originalH264 stream is relayed without JPEG conversion or another video encoder. The private GitHub Codespaces port requires owner login. GitHubPages hosts only the entry/source.
 

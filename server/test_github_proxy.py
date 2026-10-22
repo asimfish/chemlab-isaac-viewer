@@ -37,4 +37,17 @@ class ProxyTest(unittest.IsolatedAsyncioTestCase):
   with patch.object(relay,'DEADLINE',0):
    raw=('GET /health HTTP/1.1\r\nHost: '+relay.CODE_HOST+'\r\n\r\n').encode()
    self.assertIn(b'410 Gone',await self.request(raw));self.assertFalse(self.captured)
+ async def test_candidate_port_keeps_host_origin_binding(self):
+  with patch.object(relay,'CODE_PORT',18626):
+   raw=b'GET /config HTTP/1.1\r\nHost: localhost:18626\r\nOrigin: https://localhost:18626\r\n\r\n'
+   self.assertIn(b'200 OK',await self.request(raw))
+   self.assertIn(b'403',await self.request(b'GET /config HTTP/1.1\r\nHost: localhost:18620\r\n\r\n'))
+ async def test_configured_upstream_is_fixed(self):
+  async def origin(r,w):
+   await r.readuntil(b'\r\n\r\n');w.write(b'HTTP/1.1 200 OK\r\nContent-Length: 4\r\nConnection: close\r\n\r\nPORT');await w.drain();w.close()
+  server=await asyncio.start_server(origin,'127.0.0.1',0)
+  try:
+   with patch.object(relay,'UPSTREAM_PORT',server.sockets[0].getsockname()[1]):
+    raw=('GET /health HTTP/1.1\r\nHost: '+relay.CODE_HOST+'\r\n\r\n').encode();self.assertTrue((await self.request(raw)).endswith(b'PORT'))
+  finally:server.close();await server.wait_closed()
 if __name__=='__main__':unittest.main()
